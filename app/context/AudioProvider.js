@@ -9,7 +9,10 @@ export class AudioProvider extends Component {
     this.state = {
       audioFiles: [],
       permissionErr: false,
-      dataProvider: new DataProvider((r1, r2) => r1 !== r2)
+      dataProvider: new DataProvider((r1, r2) => r1 !== r2),
+      playbackObj: null,
+      soundObj: null,
+      currentAudio: {},
     }
   }
 
@@ -71,9 +74,11 @@ export class AudioProvider extends Component {
   componentDidMount() {
     this.getPermission()
   }
-
+  updateState = (preState, newState = {}) => {
+    this.setState({...preState, ...newState})
+  }
   render() {
-    const { audioFiles, dataProvider, permissionErr } = this.state
+    const { audioFiles, dataProvider, permissionErr, playbackObj, soundObj, currentAudio } = this.state
     if (permissionErr)
       return <View style={{
         flex: 1,
@@ -84,7 +89,7 @@ export class AudioProvider extends Component {
         <Text style={{ fontSize: 25, textAlign: 'center', color: 'black' }}>There was no permission to access audio</Text>
       </View>
     return (
-      <AudioContext.Provider value={{ audioFiles, dataProvider }}>
+      <AudioContext.Provider value={{ audioFiles, dataProvider, playbackObj, soundObj, currentAudio, updateState: this.updateState }}>
         {this.props.children}
       </AudioContext.Provider>
     );
