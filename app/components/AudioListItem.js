@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { Entypo } from '@expo/vector-icons';
 import color from '../misc/color';
@@ -23,10 +23,11 @@ const convertTime = minutes => {
         return `${minute}:${sec}`;
     }
 }
-const AudioListItem = ({ title, duration, onOptionPress }) => {
+const AudioListItem = ({ title, duration, onOptionPress, onAudioPress }) => {
     return (
         <>
             <View style={styles.container}>
+                <TouchableWithoutFeedback onPress={onAudioPress}>  
                 <View style={styles.leftContainer}>
                     <View style={styles.thumbnail}>
                         <Text style={styles.thumbnailText}>{getThumbnailText(title)}</Text>
@@ -36,6 +37,7 @@ const AudioListItem = ({ title, duration, onOptionPress }) => {
                         <Text style={styles.timeText}>{convertTime(duration)}</Text>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>  
                 <View style={styles.rightContainer}>
                     <Entypo onPress={onOptionPress} name="dots-three-vertical" size={20} color={color.FONT_MEDIUM}
                     style = {{padding: 10}} />

@@ -5,12 +5,14 @@ import { RecyclerListView, LayoutProvider } from 'recyclerlistview'
 import AudioListItem from '../components/AudioListItem'
 import Screen from '../components/Screen'
 import OptionModels from '../components/OptionModels'
+import {Audio} from 'expo-av'
+import { pause, play, resume } from '../misc/audioController'
 export class AudioList extends Component {
   static contextType = AudioContext
   constructor(props) {
     super(props);
     this.state = {
-      optionModalVisible: false
+      optionModalVisible: false,
     };
     this.currentItem = {}
   }
@@ -25,10 +27,33 @@ export class AudioList extends Component {
         dim.width = 0;
     }
   })
+
+  handleAudioPress = async audio => {
+    const {soundObj, playbackObj, currentAudio, updateState} = this.context;
+    // playing audio 1st time
+    if(soundObj == null) {
+      const playbackObj = new Audio.Sound();
+      const status = await play(playbackObj, audio.uri);
+      return updateState(this.context, {playbackObj: playbackObj, soundObj: status, currentAudio: audio})
+    }
+    //pause audio
+    if(soundObj.isLoaded && soundObj.isPlaying) {
+        //setStatusAsync() change status of current loading media
+       const status = await pause(playbackObj);
+       return updateState(this.context, {soundObj: status});
+    }
+
+    //resume audio
+    if(soundObj.isLoaded && !soundObj.isPlaying && currentAudio.id === audio.id) {
+       const status = await resume(playbackObj);
+       return updateState(this.context, {soundObj: status});
+    }
+  }
   rowRenderer = (type, item) => {
     return <AudioListItem 
     title={item.filename} 
     duration={item.duration}
+    onAudioPress = {() => this.handleAudioPress(item)}
     onOptionPress={() => {
       this.currentItem = item;
         this.setState({...this.state, optionModalVisible: true});
