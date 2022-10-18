@@ -24,5 +24,14 @@ export const resume = async (playbackObj) => {
     console.log("error resume");
   }
 };
+export const playNextSong = async (playbackObj, uri) => {
+  try {
+    await playbackObj.stopAsync()
+    await playbackObj.unloadAsync()
+    return await play(playbackObj, uri)
+  } catch (error) {
+    console.log("error playnext")
+  }
+}
 
 //select other audio
