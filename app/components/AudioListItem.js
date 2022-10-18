@@ -10,7 +10,7 @@ import { Entypo } from "@expo/vector-icons";
 import color from "../misc/color";
 
 const getThumbnailText = (filename) => filename[0];
-const convertTime = (minutes) => {
+export const convertTime = (minutes) => {
   if (minutes) {
     const hrs = minutes / 60;
     const minute = hrs.toString().split(".")[0];
@@ -23,21 +23,48 @@ const convertTime = (minutes) => {
     if (parseInt(minute)) {
       return `0${minute}:${sec}`;
     }
+    ``;
     if (sec < 10) {
       return `${minute}:0${sec}`;
     }
     return `${minute}:${sec}`;
   }
 };
-const AudioListItem = ({ title, duration, onOptionPress, onAudioPress }) => {
+const renderPlayPauseIcon = (isPlaying) => {
+  if (isPlaying)
+    return (
+      <Entypo name="controller-paus" size={24} color={color.ACTIVE_FONT} />
+    );
+  return <Entypo name="controller-play" size={24} color={color.ACTIVE_FONT} />;
+};
+const AudioListItem = ({
+  title,
+  duration,
+  onOptionPress,
+  onAudioPress,
+  isPlaying,
+  activeListItem,
+}) => {
   return (
     <>
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={onAudioPress}>
           <View style={styles.leftContainer}>
-            <View style={styles.thumbnail}>
+            <View
+              style={[
+                styles.thumbnail,
+                {
+                  borderRadius: 25,
+                  backgroundColor: activeListItem
+                    ? color.ACTIVE_BG
+                    : color.FONT_LIGHT,
+                },
+              ]}
+            >
               <Text style={styles.thumbnailText}>
-                {getThumbnailText(title)}
+                {activeListItem
+                  ? renderPlayPauseIcon(isPlaying)
+                  : getThumbnailText(title)}
               </Text>
             </View>
             <View style={styles.titleContainer}>
@@ -82,11 +109,9 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     height: 50,
-    backgroundColor: color.FONT_LIGHT,
     flexBasis: 50,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 25,
   },
   thumbnailText: {
     fontSize: 22,

@@ -5,7 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import color from "../misc/color";
 
@@ -16,13 +16,13 @@ const OptionModels = ({
   onPlayPress,
   onPlaylistPress,
 }) => {
-  const { filename } = currentItem;
+  const { filename } = currentItem
   return (
     <>
       <StatusBar hidden />
       <Modal animationType="slice" transparent visible={visible}>
         <View style={styles.modal}>
-          <Text style={styles.title} numberOfLines={2}>
+          <Text style={styles.title} numberOfLines={1}>
             {filename}
           </Text>
           <View style={styles.optionContainer}>

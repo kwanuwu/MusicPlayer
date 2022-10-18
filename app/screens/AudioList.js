@@ -1,11 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  LayoutAnimation,
-  Dimensions,
-} from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import React, { Component } from "react";
 import { AudioContext } from "../context/AudioProvider";
 import { RecyclerListView, LayoutProvider } from "recyclerlistview";
@@ -13,7 +6,8 @@ import AudioListItem from "../components/AudioListItem";
 import Screen from "../components/Screen";
 import OptionModels from "../components/OptionModels";
 import { Audio } from "expo-av";
-import { pause, play, resume } from "../misc/audioController";
+import { storeAudioForNextOpening } from "../misc/helper";
+import { pause, play, playNextSong, resume } from "../misc/audioController";
 export class AudioList extends Component {
   static contextType = AudioContext;
   constructor(props) {
@@ -37,24 +31,82 @@ export class AudioList extends Component {
       }
     }
   );
+  // onPlaybackStatusUpdate = async (playbackStatus) => {
+  //   if (playbackStatus.isLoaded && playbackStatus.isPlaying) {
+  //     this.context.updateState(this.context, {
+  //       playbackPosition: playbackStatus.positionMillis,
+  //       playbackDuration: playbackStatus.durationMillis,
+  //     });
+  //   }
 
+  //   //play next song when playing song is finished
+  //   if(playbackStatus.didJustFinish) {
+  //     const nextAudioIndex = this.context.currentAudioIndex + 1;
+  //     // const nextAudioIndex = Math.floor(Math.random()*Number(this.context.totalAudioCount));
+  //     if(nextAudioIndex >= this.context.totalAudioCount) {
+  //       this.context.playbackObj.unloadAsync();
+  //       this.context.updateState(this.context, {
+  //         soundObj: null,
+  //         currentAudio: this.context.audioFiles[0],
+  //         isPlaying: false,
+  //         currentAudioIndex: 0,
+  //         playbackPosition: null,
+  //         playbackDuration: null,
+  //       });
+  //       return await storeAudioForNextOpening(this.context.audioFiles[0], 0);
+  //     }
+  //     const audio = this.context.audioFiles[nextAudioIndex];
+  //     const status = await playNextSong(this.context.playbackObj, audio.uri)
+  //     this.context.updateState(this.context, {
+  //       soundObj: status,
+  //       currentAudio: audio,
+  //       isPlaying: true,
+  //       currentAudioIndex: nextAudioIndex,
+  //     });
+  //     await storeAudioForNextOpening(audio, nextAudioIndex)
+  //   }
+  //   //play random song
+  //   // if(playbackStatus.didJustFinish) {
+  //   //   const nextAudioIndex = Math.floor(Math.random()*Number(this.context.totalAudioCount));
+  //   //   const audio = this.context.audioFiles[nextAudioIndex];
+  //   // const status = await playNextSong(this.context.playbackObj, audio.uri)
+  //   // this.context.updateState(this.state, {
+  //   //   soundObj: status,
+  //   //   currentAudio: audio,
+  //   //   isPlaying: true,
+  //   //   currentAudio: nextAudioIndex,
+  //   // });
+  //   // }
+  // };
   handleAudioPress = async (audio) => {
-    const { soundObj, playbackObj, currentAudio, updateState } = this.context;
+    const { soundObj, playbackObj, currentAudio, updateState, audioFiles } =
+      this.context;
     // playing audio 1st time
     if (soundObj == null) {
       const playbackObj = new Audio.Sound();
       const status = await play(playbackObj, audio.uri);
-      return updateState(this.context, {
+      const index = audioFiles.indexOf(audio);
+      updateState(this.context, {
         playbackObj: playbackObj,
         soundObj: status,
         currentAudio: audio,
+        isPlaying: true,
+        currentAudioIndex: index,
       });
+      playbackObj.setOnPlaybackStatusUpdate(
+        this.context.onPlaybackStatusUpdate
+      );
+      return storeAudioForNextOpening(audio, index);
     }
     //pause audio
-    if (soundObj.isLoaded && soundObj.isPlaying) {
+    if (
+      soundObj.isLoaded &&
+      soundObj.isPlaying &&
+      currentAudio.id == audio.id
+    ) {
       //setStatusAsync() change status of current loading media
       const status = await pause(playbackObj);
-      return updateState(this.context, { soundObj: status });
+      return updateState(this.context, { soundObj: status, isPlaying: false });
     }
 
     //resume audio
@@ -64,14 +116,33 @@ export class AudioList extends Component {
       currentAudio.id === audio.id
     ) {
       const status = await resume(playbackObj);
-      return updateState(this.context, { soundObj: status });
+      return updateState(this.context, { soundObj: status, isPlaying: true });
+    }
+    //select other audio
+    if (soundObj.isLoaded && currentAudio.id !== audio.id) {
+      const status = await playNextSong(playbackObj, audio.uri);
+      const index = audioFiles.indexOf(audio);
+      updateState(this.context, {
+        soundObj: status,
+        currentAudio: audio,
+        isPlaying: true,
+        currentAudioIndex: index,
+      });
+      return storeAudioForNextOpening(audio, index);
     }
   };
-  rowRenderer = (type, item) => {
+
+  componentDidMount() {
+    this.context.loadPreviousAudio();
+  }
+
+  rowRenderer = (type, item, index, extendedState) => {
     return (
       <AudioListItem
         title={item.filename}
+        isPlaying={extendedState.isPlaying}
         duration={item.duration}
+        activeListItem={this.context.currentAudioIndex === index}
         onAudioPress={() => this.handleAudioPress(item)}
         onOptionPress={() => {
           this.currentItem = item;
@@ -84,17 +155,17 @@ export class AudioList extends Component {
     return (
       <View style={{ flex: 1 }}>
         <AudioContext.Consumer>
-          {({ dataProvider }) => {
+          {({ dataProvider, isPlaying }) => {
+            if (!dataProvider._data.length) return null;
             return (
               <Screen>
                 <RecyclerListView
                   dataProvider={dataProvider}
                   layoutProvider={this.layoutProvider}
                   rowRenderer={this.rowRenderer}
+                  extendedState={{ isPlaying }}
                 ></RecyclerListView>
                 <OptionModels
-                  onPlayPress={() => console.log("pressed")}
-                  onPlaylistPress={() => console.log("pressed")}
                   currentItem={this.currentItem}
                   onClose={() =>
                     this.setState({ ...this.state, optionModalVisible: false })
