@@ -33,37 +33,37 @@ export class AudioList extends Component {
   );
   // onPlaybackStatusUpdate = async (playbackStatus) => {
   //   if (playbackStatus.isLoaded && playbackStatus.isPlaying) {
-  //     this.context.updateState(this.context, {
+  //     this.updateState(this, {
   //       playbackPosition: playbackStatus.positionMillis,
   //       playbackDuration: playbackStatus.durationMillis,
   //     });
   //   }
 
   //   //play next song when playing song is finished
-  //   if(playbackStatus.didJustFinish) {
-  //     const nextAudioIndex = this.context.currentAudioIndex + 1;
+  //   if (playbackStatus.didJustFinish) {
+  //     const nextAudioIndex = this.state.currentAudioIndex + 1;
   //     // const nextAudioIndex = Math.floor(Math.random()*Number(this.context.totalAudioCount));
-  //     if(nextAudioIndex >= this.context.totalAudioCount) {
-  //       this.context.playbackObj.unloadAsync();
-  //       this.context.updateState(this.context, {
+  //     if (nextAudioIndex >= this.totalAudioCount) {
+  //       this.playbackObj.unloadAsync();
+  //       this.updateState(this, {
   //         soundObj: null,
-  //         currentAudio: this.context.audioFiles[0],
+  //         currentAudio: this.state.audioFiles[0],
   //         isPlaying: false,
   //         currentAudioIndex: 0,
   //         playbackPosition: null,
   //         playbackDuration: null,
   //       });
-  //       return await storeAudioForNextOpening(this.context.audioFiles[0], 0);
+  //       return await storeAudioForNextOpening(this.state.audioFiles[0], 0);
   //     }
-  //     const audio = this.context.audioFiles[nextAudioIndex];
-  //     const status = await playNextSong(this.context.playbackObj, audio.uri)
-  //     this.context.updateState(this.context, {
+  //     const audio = this.state.audioFiles[nextAudioIndex];
+  //     const status = await playNextSong(this.state.playbackObj, audio.uri);
+  //     this.updateState(this, {
   //       soundObj: status,
   //       currentAudio: audio,
   //       isPlaying: true,
   //       currentAudioIndex: nextAudioIndex,
   //     });
-  //     await storeAudioForNextOpening(audio, nextAudioIndex)
+  //     await storeAudioForNextOpening(audio, nextAudioIndex);
   //   }
   //   //play random song
   //   // if(playbackStatus.didJustFinish) {
