@@ -69,7 +69,7 @@ const AudioListItem = ({
             </View>
             <View style={styles.titleContainer}>
               <Text numberOfLines={1} style={styles.title}>
-                {title}
+                {title.split("-FLAC", 1)}
               </Text>
               <Text style={styles.timeText}>{convertTime(duration)}</Text>
             </View>
