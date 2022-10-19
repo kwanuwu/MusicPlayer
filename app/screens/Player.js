@@ -147,27 +147,39 @@ const Player = () => {
     });
     storeAudioForNextOpening(audio, index);
   };
-
+//handle random button
   const handleRandom = () => {
-    // context.isLoopPressed = false;
-    // if (context.isRandomPressed === true) {
-    //   context.isRandomPressed = false;
-    // } else {
-    //   context.isRandomPressed = true;
-    // }
-    // while (context.isLoopPressed === true) {}
+    context.isLooping = false;
+  if(context.isRandom === true) {
+    context.isRandom = false;
+    return context.updateState(context, {
+      isLooping: context.isLooping,
+      isRandom: context.isRandom,
+    })
+  } else {
+    context.isRandom = true
+    return context.updateState(context, {
+      isLooping: context.isLooping,
+      isRandom: context.isRandom,
+    })
   };
-
-  const handleLoop = () => {
-    // context.soundObj.isLooping = true;
-    // context.isRandomPressed = false
-    // if(context.isLoopPressed === true) {
-    //   context.isLoopPressed = false;
-    // } else {
-    //   context.isLoopPressed = true;
-    // }
-    // while (context.isLoopPressed === true) {
-    // }
+}
+//hanlde loop button
+  const handleLoop = async () => {
+  context.isRandom = false;
+  if(context.isLooping === true) {
+    context.isLooping = false;
+    return context.updateState(context, {
+      isLooping: context.isLooping,
+      isRandom: context.isRandom,
+    })
+  } else {
+    context.isLooping = true
+    return context.updateState(context, {
+      isLooping: context.isLooping,
+      isRandom: context.isRandom,
+    })
+  }
   };
 
   return (

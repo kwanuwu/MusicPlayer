@@ -18,6 +18,8 @@ export class AudioProvider extends Component {
       soundObj: null,
       currentAudio: {},
       isPlaying: false,
+      isLooping: false,
+      isRandom: false,
       currentAudioIndex: null,
       playbackPosition: null,
       playbackDuration: null,
@@ -117,45 +119,60 @@ export class AudioProvider extends Component {
         playbackDuration: playbackStatus.durationMillis,
       });
     }
-
     //play next song when playing song is finished
     if (playbackStatus.didJustFinish) {
-      const nextAudioIndex = this.state.currentAudioIndex + 1;
-      // const nextAudioIndex = Math.floor(Math.random()*Number(this.context.totalAudioCount));
-      if (nextAudioIndex >= this.totalAudioCount) {
-        this.playbackObj.unloadAsync();
+      //play in loop
+      if (this.state.isLooping === true) {
+        const nextAudioIndex = this.state.currentAudioIndex;
+        const audio = this.state.audioFiles[nextAudioIndex];
+        const status = await playNextSong(this.state.playbackObj, audio.uri);
         this.updateState(this, {
-          soundObj: null,
-          currentAudio: this.state.audioFiles[0],
-          isPlaying: false,
-          currentAudioIndex: 0,
-          playbackPosition: null,
-          playbackDuration: null,
+          soundObj: status,
+          currentAudio: audio,
+          isPlaying: true,
+          currentAudioIndex: nextAudioIndex,
         });
-        return await storeAudioForNextOpening(this.state.audioFiles[0], 0);
+        return await storeAudioForNextOpening(audio, nextAudioIndex);
+      } else if (this.state.isRandom === true) {
+        //play random
+        const nextAudioIndex = Math.floor(
+          Math.random() * Number(this.totalAudioCount)
+        );
+        const audio = this.state.audioFiles[nextAudioIndex];
+        const status = await playNextSong(this.state.playbackObj, audio.uri);
+        return this.updateState(this, {
+          soundObj: status,
+          currentAudio: audio,
+          isPlaying: true,
+          currentAudioIndex: nextAudioIndex,
+        });
+        return await storeAudioForNextOpening(audio, nextAudioIndex);
+      } else {
+        //play next
+        const nextAudioIndex = this.state.currentAudioIndex + 1;
+        if (nextAudioIndex >= this.totalAudioCount) {
+          this.playbackObj.unloadAsync();
+          this.updateState(this, {
+            soundObj: null,
+            currentAudio: this.state.audioFiles[0],
+            isPlaying: false,
+            currentAudioIndex: 0,
+            playbackPosition: null,
+            playbackDuration: null,
+          });
+          return await storeAudioForNextOpening(this.state.audioFiles[0], 0);
+        }
+        const audio = this.state.audioFiles[nextAudioIndex];
+        const status = await playNextSong(this.state.playbackObj, audio.uri);
+        this.updateState(this, {
+          soundObj: status,
+          currentAudio: audio,
+          isPlaying: true,
+          currentAudioIndex: nextAudioIndex,
+        });
+        await storeAudioForNextOpening(audio, nextAudioIndex);
       }
-      const audio = this.state.audioFiles[nextAudioIndex];
-      const status = await playNextSong(this.state.playbackObj, audio.uri);
-      this.updateState(this, {
-        soundObj: status,
-        currentAudio: audio,
-        isPlaying: true,
-        currentAudioIndex: nextAudioIndex,
-      });
-      await storeAudioForNextOpening(audio, nextAudioIndex);
     }
-    //play random song
-    // if(playbackStatus.didJustFinish) {
-    //   const nextAudioIndex = Math.floor(Math.random()*Number(this.context.totalAudioCount));
-    //   const audio = this.context.audioFiles[nextAudioIndex];
-    // const status = await playNextSong(this.context.playbackObj, audio.uri)
-    // this.context.updateState(this.state, {
-    //   soundObj: status,
-    //   currentAudio: audio,
-    //   isPlaying: true,
-    //   currentAudio: nextAudioIndex,
-    // });
-    // }
   };
 
   componentDidMount() {
@@ -176,6 +193,8 @@ export class AudioProvider extends Component {
       soundObj,
       currentAudio,
       isPlaying,
+      isLooping,
+      isRandom,
       currentAudioIndex,
       playbackDuration,
       playbackPosition,
@@ -203,6 +222,8 @@ export class AudioProvider extends Component {
           soundObj,
           currentAudio,
           isPlaying,
+          isLooping,
+          isRandom,
           currentAudioIndex,
           totalAudioCount: this.totalAudioCount,
           playbackDuration,
