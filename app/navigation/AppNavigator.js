@@ -32,7 +32,7 @@ const AppNavigator = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Playlist"
+        name="PlayList"
         component={PlayList}
         options={{
           headerShown: false,
