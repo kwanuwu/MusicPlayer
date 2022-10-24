@@ -13,8 +13,9 @@ import PlayListInputModal from "../components/PlayListInputModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AudioContext } from "../context/AudioProvider";
 import PlayListDetail from "../components/PlayListDetail";
+// import {PlayListDetail} from './PlayListDetail'
 let selectedPlayList = {};
-const PlayList = () => {
+const PlayList = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showPlayList, setShowPlayList] = useState(false);
   const context = useContext(AudioContext);
@@ -96,7 +97,7 @@ const handleBannerPress = async (playList) => {
   return AsyncStorage.setItem('playlist', JSON.stringify([...updatedList]))
   }
   selectedPlayList = playList;
-  setShowPlayList(true);
+  navigation.navigate('PlayListDetail', playList);
 }
   return (
     <>

@@ -8,7 +8,6 @@ import {
 import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import color from "../misc/color";
-
 const getThumbnailText = (filename) => filename[0];
 export const convertTime = (minutes) => {
   if (minutes) {
@@ -20,7 +19,7 @@ export const convertTime = (minutes) => {
     if (parseInt(minute) < 10 && sec < 10) {
       return `0${minute}:0${sec}`;
     }
-    if (parseInt(minute)) {
+    if (parseInt(minute) < 10) {
       return `0${minute}:${sec}`;
     }
     ``;

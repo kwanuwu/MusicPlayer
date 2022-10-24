@@ -22,6 +22,8 @@ export class AudioProvider extends Component {
       isPlaying: false,
       isLooping: false,
       isRandom: false,
+      isPlayListRunning: false,
+      activePlayList: [],
       currentAudioIndex: null,
       playbackPosition: null,
       playbackDuration: null,
@@ -123,7 +125,61 @@ export class AudioProvider extends Component {
     }
     //play next song when playing song is finished
     if (playbackStatus.didJustFinish) {
-      //play in loop
+      if (this.state.isPlayListRunning) {
+        let audio;
+        const indexOnPlayList = this.state.activePlayList.audios.findIndex(
+          ({ id }) => id === this.state.currentAudio.id
+        );
+        if (this.state.isLooping === true) {
+          const nextAudioIndex = this.state.currentAudioIndex;
+          const audio = this.state.audioFiles[nextAudioIndex];
+          const status = await playNextSong(this.state.playbackObj, audio.uri);
+          this.updateState(this, {
+            soundObj: status,
+            currentAudio: audio,
+            isPlaying: true,
+            currentAudioIndex: nextAudioIndex,
+          });
+          return await storeAudioForNextOpening(audio, nextAudioIndex);
+        } else if (this.state.isRandom === true) {
+          //play random in playlist
+          const indexOnPlayList = this.state.activePlayList.audios.findIndex(
+            ({ id }) => id === this.state.currentAudio.id
+          );
+          const nextIndex = Math.floor(Math.random() * Number(indexOnPlayList));
+          audio = this.state.activePlayList.audios[nextIndex];
+
+          if (!audio) audio = this.state.activePlayList.audios[0];
+
+          const indexOnAllList = this.state.audioFiles.findIndex(
+            ({ id }) => id === audio.id
+          );
+          const status = await playNextSong(this.state.playbackObj, audio.uri);
+          this.updateState(this, {
+            soundObj: status,
+            isPlaying: true,
+            currentAudio: audio,
+            currentAudioIndex: indexOnAllList,
+          });
+          return await storeAudioForNextOpening(audio, nextAudioIndex);u
+        }
+        const nextIndex = indexOnPlayList + 1;
+        audio = this.state.activePlayList.audios[nextIndex];
+
+        if (!audio) audio = this.state.activePlayList.audios[0];
+
+        const indexOnAllList = this.state.audioFiles.findIndex(
+          ({ id }) => id === audio.id
+        );
+        const status = await playNextSong(this.state.playbackObj, audio.uri);
+        return this.updateState(this, {
+          soundObj: status,
+          isPlaying: true,
+          currentAudio: audio,
+          currentAudioIndex: indexOnAllList,
+        });
+      }
+      // play in loop
       if (this.state.isLooping === true) {
         const nextAudioIndex = this.state.currentAudioIndex;
         const audio = this.state.audioFiles[nextAudioIndex];
@@ -142,7 +198,7 @@ export class AudioProvider extends Component {
         );
         const audio = this.state.audioFiles[nextAudioIndex];
         const status = await playNextSong(this.state.playbackObj, audio.uri);
-        return this.updateState(this, {
+        this.updateState(this, {
           soundObj: status,
           currentAudio: audio,
           isPlaying: true,
@@ -202,6 +258,8 @@ export class AudioProvider extends Component {
       currentAudioIndex,
       playbackDuration,
       playbackPosition,
+      isPlayListRunning,
+      activePlayList,
     } = this.state;
     if (permissionErr)
       return (
@@ -234,6 +292,8 @@ export class AudioProvider extends Component {
           totalAudioCount: this.totalAudioCount,
           playbackDuration,
           playbackPosition,
+          isPlayListRunning,
+          activePlayList,
           updateState: this.updateState,
           loadPreviousAudio: this.loadPreviousAudio,
           onPlaybackStatusUpdate: this.onPlaybackStatusUpdate,
