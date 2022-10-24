@@ -1,19 +1,11 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-} from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import color from "../misc/color";
-import PlayListInputModal from "../components/PlayListInputModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Alert, ScrollView, StyleSheet, Text, TouchableOpacity
+} from "react-native";
+import PlayListInputModal from "../components/PlayListInputModal";
 import { AudioContext } from "../context/AudioProvider";
-import PlayListDetail from "../components/PlayListDetail";
-// import {PlayListDetail} from './PlayListDetail'
+import color from "../misc/color";
 let selectedPlayList = {};
 const PlayList = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -130,7 +122,6 @@ const handleBannerPress = async (playList) => {
         onSubmit={createPlayList}
       ></PlayListInputModal>
     </ScrollView>
-    <PlayListDetail visible ={showPlayList} playList = {selectedPlayList} onClose = {() => setShowPlayList(false)}/>
     </>
   );
 };

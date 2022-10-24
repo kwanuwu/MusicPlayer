@@ -1,12 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
 import React from "react";
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const PlayerButtons = (props) => {
