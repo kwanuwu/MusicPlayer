@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -26,12 +27,12 @@ const OptionModels = ({
             {filename}
           </Text>
           <View style={styles.optionContainer}>
-            <TouchableWithoutFeedback onPress={onPlayPress}>
+            <TouchableOpacity onPress={onPlayPress}>
               <Text style={styles.option}>Play</Text>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={onPlaylistPress}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPlaylistPress}>
               <Text style={styles.option}>Add to Playlist</Text>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </View>
         </View>
         <TouchableWithoutFeedback onPress={onClose}>

@@ -1,34 +1,38 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React from "react";
-import { AntDesign } from "@expo/vector-icons";
-import color from "../misc/color";
+import Icon from 'react-native-vector-icons/Ionicons'
+
 
 const PlayerButtons = (props) => {
-  const { iconType, size = 40, iconColor = "black", onPress } = props;
+  const { iconType, iconColor = "black" } = props;
   const getIconName = (type) => {
     switch (type) {
       case "PLAY":
-        return "pausecircleo";
+        return "pause";
       case "PAUSE":
-        return "playcircleo";
+        return "play";
       case "NEXT":
-        return "rightcircleo";
+        return "play-skip-forward";
       case "PREV":
-        return "leftcircleo";
+        return "play-skip-back";
       case "RANDOM":
-        return "swap";
+        return "shuffle";
       case "LOOP":
-        return "retweet";
+        return "repeat";
     }
   };
   return (
-    <AntDesign
-      onPress={onPress}
+    <Icon
       name={getIconName(iconType)}
-      size={size}
       color={iconColor}
       {...props}
-    ></AntDesign>
+    ></Icon>
   );
 };
 

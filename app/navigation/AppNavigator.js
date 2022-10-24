@@ -6,8 +6,19 @@ import PlayList from "../screens/PlayList";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-
+import { createStackNavigator } from "@react-navigation/stack";
+import PlayListDetail from "../screens/PlayListDetail";
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+
+const PlayListScreen = () => {
+return <Stack.Navigator screenOptions={{headerShown: false}}>
+  <Stack.Screen name = 'PlayList' component={PlayList}></Stack.Screen>
+  <Stack.Screen name = 'PlayListDetail' component={PlayListDetail}></Stack.Screen>
+</Stack.Navigator>
+
+}
 const AppNavigator = () => {
   return (
     <Tab.Navigator>
@@ -33,7 +44,7 @@ const AppNavigator = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="PlayList"
-        component={PlayList}
+        component={PlayListScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
