@@ -14,6 +14,7 @@ const OptionModels = ({
   visible,
   currentItem,
   onClose,
+  options,
   onPlayPress,
   onPlaylistPress,
 }) => {
@@ -27,12 +28,17 @@ const OptionModels = ({
             {filename}
           </Text>
           <View style={styles.optionContainer}>
-            <TouchableOpacity onPress={onPlayPress}>
+            {options.map(optn => {
+              return <TouchableOpacity key = {optn.title} onPress={optn.onPress}>
+              <Text style={styles.option}>{optn.title}</Text>
+            </TouchableOpacity>
+            })}
+            {/* <TouchableOpacity onPress={onPlayPress}>
               <Text style={styles.option}>Play</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onPlaylistPress}>
               <Text style={styles.option}>Add to Playlist</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <TouchableWithoutFeedback onPress={onClose}>

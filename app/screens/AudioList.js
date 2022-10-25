@@ -61,6 +61,14 @@ export class AudioList extends Component {
       />
     );
   };
+
+  navigateToPlayList = () => {
+    this.context.updateState(this.context, {
+      addToPlayList: this.currentItem,
+    });
+    this.props.navigation.navigate("PlayList");
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -76,12 +84,13 @@ export class AudioList extends Component {
                   extendedState={{ isPlaying }}
                 ></RecyclerListView>
                 <OptionModels
-                  onPlaylistPress={() => {
-                    this.context.updateState(this.context, {
-                      addToPlayList: this.currentItem,
-                    });
-                    this.props.navigation.navigate("PlayList");
-                  }}
+                  // onPlaylistPress={() => {
+                  //   this.context.updateState(this.context, {
+                  //     addToPlayList: this.currentItem,
+                  //   });
+                  //   this.props.navigation.navigate("PlayList");
+                  // }}
+                  options = {[{title: 'Add to playlist', onPress: this.navigateToPlayList}]}
                   currentItem={this.currentItem}
                   onClose={() =>
                     this.setState({ ...this.state, optionModalVisible: false })
