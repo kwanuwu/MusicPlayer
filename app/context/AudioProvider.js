@@ -123,6 +123,14 @@ export class AudioProvider extends Component {
         playbackDuration: playbackStatus.durationMillis,
       });
     }
+
+    if (playbackStatus.isLoaded && !playbackStatus.isPlaying) {
+      storeAudioForNextOpening(
+        this.state.currentAudio,
+        this.state.currentAudioIndex,
+        playbackStatus.positionMillis,
+      );
+    }
     //play next song when playing song is finished
     if (playbackStatus.didJustFinish) {
       if (this.state.isPlayListRunning) {
@@ -161,7 +169,8 @@ export class AudioProvider extends Component {
             currentAudio: audio,
             currentAudioIndex: indexOnAllList,
           });
-          return await storeAudioForNextOpening(audio, nextAudioIndex);u
+          return await storeAudioForNextOpening(audio, nextAudioIndex);
+          u;
         }
         const nextIndex = indexOnPlayList + 1;
         audio = this.state.activePlayList.audios[nextIndex];

@@ -1,8 +1,19 @@
 import { storeAudioForNextOpening } from "./helper";
 //play
-export const play = async (playbackObj, uri) => {
+export const play = async (playbackObj, uri, lastPosition) => {
   try {
-    return await playbackObj.loadAsync({ uri }, { shouldPlay: true });
+    if (!lastPosition)
+      return await playbackObj.loadAsync(
+        { uri },
+        { shouldPlay: true, progressUpdateIntervalMillis: 1000 }
+      );
+
+    await playbackObj.loadAsync(
+      { uri },
+      { progressUpdateIntervalMillis: 1000 }
+    );
+
+    return await playbackObj.playFromPositionAsync(lastPosition);
   } catch (error) {
     console.log("error play");
   }
@@ -49,7 +60,7 @@ export const selectAudio = async (audio, context, playListInfo = {}) => {
   // playing audio 1st time
   try {
     if (soundObj == null) {
-      const status = await play(playbackObj, audio.uri);
+      const status = await play(playbackObj, audio.uri, audio.lastPosition);
       const index = audioFiles.findIndex(({ id }) => id === audio.id);
       updateState(context, {
         soundObj: status,
@@ -116,11 +127,11 @@ const selectAudioFromPlayList = async (context, select) => {
   const indexOnPlayList = activePlayList.audios.findIndex(
     ({ id }) => id === currentAudio.id
   );
-  if(select === 'next') {
+  if (select === "next") {
     nextIndex = indexOnPlayList + 1;
     defaultIndex = 0;
   }
-  if(select === 'previous') {
+  if (select === "previous") {
     nextIndex = indexOnPlayList - 1;
     defaultIndex = activePlayList.audios.length - 1;
   }
@@ -128,9 +139,7 @@ const selectAudioFromPlayList = async (context, select) => {
 
   if (!audio) audio = activePlayList.audios[defaultIndex];
 
-  const indexOnAllList = audioFiles.findIndex(
-    ({ id }) => id === audio.id
-  );
+  const indexOnAllList = audioFiles.findIndex(({ id }) => id === audio.id);
   const status = await playNextSong(playbackObj, audio.uri);
   return updateState(context, {
     soundObj: status,
