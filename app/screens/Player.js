@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
+import { convertTime } from "../components/AudioListItem";
 import PlayerButtons from "../components/PlayerButtons";
 import Screen from "../components/Screen";
 import { AudioContext } from "../context/AudioProvider";
@@ -23,8 +24,11 @@ const { width } = Dimensions.get("window");
 const Player = () => {
   const [currentPosition, setCurrentPosition] = useState(0);
   const context = useContext(AudioContext);
-  const { playbackPosition, playbackDuration } = context;
+  const { playbackPosition, playbackDuration, currentAudio } = context;
   const calculateSeekbar = () => {
+    if(currentAudio.lastPosition) {
+      return currentAudio.lastPosition / (currentAudio.duration*1000)
+    }
     if (playbackPosition !== null && playbackDuration !== null) {
       return playbackPosition / playbackDuration;
     }
@@ -93,7 +97,12 @@ const Player = () => {
       });
     }
   };
-
+const renderCurrentTime  = () => {
+  if(!context.soundObj && currentAudio.lastPosition) {
+    return msToTime(currentAudio.lastPosition) + ' / ' + convertTime(context.currentAudio.duration)
+  }
+  return msToTime(context.playbackPosition) + ' / ' + convertTime(context.currentAudio.duration)
+}
   return (
     <Screen>
       <View style={styles.container}>
@@ -122,7 +131,7 @@ const Player = () => {
             {context.currentAudio.filename.split("-FLAC", 1)}
           </Text>
           <Text style={styles.timeDurationContainer}>
-            {msToTime(playbackPosition)} / {msToTime(playbackDuration)}
+            {renderCurrentTime()}
           </Text>
           <Slider
             style={{ width: width, height: 40 }}
