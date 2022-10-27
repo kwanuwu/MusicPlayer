@@ -69,6 +69,10 @@ export class AudioList extends Component {
     this.props.navigation.navigate("PlayList");
   }
 
+  playAudio = async () => {
+    await selectAudio(this.audio, this.context);
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -77,6 +81,7 @@ export class AudioList extends Component {
             if (!dataProvider._data.length) return null;
             return (
               <Screen>
+                <Text style = {styles.title}>All songs</Text>
                 <RecyclerListView
                   dataProvider={dataProvider}
                   layoutProvider={this.layoutProvider}
@@ -90,7 +95,7 @@ export class AudioList extends Component {
                   //   });
                   //   this.props.navigation.navigate("PlayList");
                   // }}
-                  options = {[{title: 'Add to playlist', onPress: this.navigateToPlayList}]}
+                  options = {[{title: 'Play', onPress: this.playAudio},{title: 'Add to playlist', onPress: this.navigateToPlayList}]}
                   currentItem={this.currentItem}
                   onClose={() =>
                     this.setState({ ...this.state, optionModalVisible: false })
@@ -111,5 +116,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  title: {
+    alignSelf: 'center',
+    fontSize: 30,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
+  }
 });
 export default AudioList;

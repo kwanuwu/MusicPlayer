@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const PlayerButtons = (props) => {
-  const { iconType, iconColor = "black" } = props;
+  const { iconType, iconColor = "white" } = props;
   const getIconName = (type) => {
     switch (type) {
       case "PLAY":

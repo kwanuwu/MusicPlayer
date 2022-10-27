@@ -113,7 +113,7 @@ const PlayListDetail = (props) => {
   };
 
   return (
-    <>
+    <View style = {{backgroundColor: '#3a3d46', height: '100%'}}>
       <View style={styles.container}>
         <View
           style={{
@@ -174,7 +174,7 @@ const PlayListDetail = (props) => {
         options={[{ title: "Remove from playlist", onPress: removeAudio }]}
         currentItem={selectedItem}
       />
-    </>
+    </View>
   );
 };
 

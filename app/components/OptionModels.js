@@ -15,14 +15,12 @@ const OptionModels = ({
   currentItem,
   onClose,
   options,
-  onPlayPress,
-  onPlaylistPress,
 }) => {
   const { filename } = currentItem
   return (
     <>
       <StatusBar hidden />
-      <Modal animationType="slice" transparent visible={visible}>
+      <Modal animationType="slice" transparent visible={visible} >
         <View style={styles.modal}>
           <Text style={styles.title} numberOfLines={1}>
             {filename}
@@ -45,7 +43,7 @@ const OptionModels = ({
           <View style={styles.modalBg} />
         </TouchableWithoutFeedback>
       </Modal>
-    </>
+      </>
   );
 };
 

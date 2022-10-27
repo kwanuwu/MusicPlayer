@@ -48,7 +48,6 @@ const AudioListItem = ({
   activeListItem,
 }) => {
   return (
-    <>
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={onAudioPress}>
           <View style={styles.leftContainer}>
@@ -56,9 +55,9 @@ const AudioListItem = ({
               style={[
                 styles.thumbnail,
                 {
-                  borderRadius: 25,
+                  borderRadius: 12,
                   backgroundColor: activeListItem
-                    ? color.ACTIVE_BG
+                    ? '#4ecda4'
                     : color.FONT_LIGHT,
                 },
               ]}
@@ -82,13 +81,11 @@ const AudioListItem = ({
             onPress={onOptionPress}
             name="dots-three-vertical"
             size={20}
-            color={color.FONT_MEDIUM}
+            color= 'white'
             style={{ padding: 10 }}
           />
         </View>
       </View>
-      <View style={styles.separator} />
-    </>
   );
 };
 const { width } = Dimensions.get("window");
@@ -97,6 +94,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     width: width - 30,
+    backgroundColor: "#525a67",
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 13,
   },
   leftContainer: {
     flexDirection: "row",
@@ -104,21 +105,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   rightContainer: {
-    flexBasis: 50,
-    height: 50,
+    flexBasis: 60,
+    height: 60,
     alignItems: "center",
     justifyContent: "center",
   },
   thumbnail: {
-    height: 50,
-    flexBasis: 50,
+    height: 60,
+    flexBasis: 60,
     justifyContent: "center",
     alignItems: "center",
   },
   thumbnailText: {
     fontSize: 22,
     fontWeight: "bold",
-    color: color.FONT,
+    color: 'white',
   },
   titleContainer: {
     width: width - 180,
@@ -126,19 +127,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: color.FONT,
-  },
-  separator: {
-    width: width,
-    backgroundColor: "#333",
-    opacity: 0.3,
-    height: 0.5,
-    alignSelf: "center",
-    marginTop: 10,
+    color: 'white',
   },
   timeText: {
     fontSize: 14,
-    color: color.FONT_LIGHT,
+    color: 'white',
   },
 });
 export default AudioListItem;

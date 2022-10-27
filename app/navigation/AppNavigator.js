@@ -5,7 +5,6 @@ import Player from "../screens/Player";
 import PlayList from "../screens/PlayList";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayListDetail from "../screens/PlayListDetail";
 const Tab = createBottomTabNavigator();
@@ -21,7 +20,17 @@ return <Stack.Navigator screenOptions={{headerShown: false}}>
 }
 const AppNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator  screenOptions={({ route }) => ({
+      tabBarIcon: ({ color }) => screenOptions(route, color),
+      headerShown: false,
+      tabBarActiveTintColor: '#4ECCA3',
+      tabBarInactiveTintColor:'white',
+      tabBarStyle: {borderTopWidth: 0,
+      backgroundColor: '#232a32'},
+      detachInactiveTabs: true,
+      tabBarLabelStyle: { fontSize: 12 },
+      tabBarHideOnKeyboard: true,
+    })}>
       <Tab.Screen
         name="AudioList"
         component={AudioList}
@@ -43,7 +52,7 @@ const AppNavigator = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="PlayListContainer"
+        name="Playlist"
         component={PlayListScreen}
         options={{
           headerShown: false,

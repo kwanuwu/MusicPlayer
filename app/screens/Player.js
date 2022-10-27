@@ -26,8 +26,8 @@ const Player = () => {
   const context = useContext(AudioContext);
   const { playbackPosition, playbackDuration, currentAudio } = context;
   const calculateSeekbar = () => {
-    if(currentAudio.lastPosition) {
-      return currentAudio.lastPosition / (currentAudio.duration*1000)
+    if (currentAudio.lastPosition) {
+      return currentAudio.lastPosition / (currentAudio.duration * 1000);
     }
     if (playbackPosition !== null && playbackDuration !== null) {
       return playbackPosition / playbackDuration;
@@ -97,12 +97,20 @@ const Player = () => {
       });
     }
   };
-const renderCurrentTime  = () => {
-  if(!context.soundObj && currentAudio.lastPosition) {
-    return msToTime(currentAudio.lastPosition) + ' / ' + convertTime(context.currentAudio.duration)
-  }
-  return msToTime(context.playbackPosition) + ' / ' + convertTime(context.currentAudio.duration)
-}
+  const renderCurrentTime = () => {
+    if (!context.soundObj && currentAudio.lastPosition) {
+      return (
+        msToTime(currentAudio.lastPosition) +
+        " / " +
+        convertTime(context.currentAudio.duration)
+      );
+    }
+    return (
+      msToTime(context.playbackPosition) +
+      " / " +
+      convertTime(context.currentAudio.duration)
+    );
+  };
   return (
     <Screen>
       <View style={styles.container}>
@@ -110,20 +118,28 @@ const renderCurrentTime  = () => {
           <View style={{ flexDirection: "row" }}>
             {context.isPlayListRunning && (
               <>
-                <Text style={{ fontWeight: "bold" }}>From Playlist: </Text>
-                <Text>{context.activePlayList.title}</Text>
+                <Text
+                  style={{ fontWeight: "bold", color: "white", fontSize: 20 }}
+                >
+                  From Playlist:{" "}
+                </Text>
+                <Text style={{ color: "white", fontSize: 20 }}>
+                  {context.activePlayList.title}
+                </Text>
+                <Text style={styles.audioCount}>
+                  {`${context.currentAudioIndex + 1} / ${
+                    context.totalAudioCount
+                  }`}
+                </Text>
               </>
             )}
           </View>
-          <Text style={styles.audioCount}>
-            {`${context.currentAudioIndex + 1} / ${context.totalAudioCount}`}
-          </Text>
         </View>
         <View style={styles.midBannerContainer}>
           <MaterialCommunityIcons
             name="music-circle"
             size={340}
-            color={context.isPlaying ? color.ACTIVE_BG : color.FONT_MEDIUM}
+            color={context.isPlaying ? '#1ed561' : 'white'}
           />
         </View>
         <View style={styles.audioPlayerContainer}>
@@ -138,7 +154,7 @@ const renderCurrentTime  = () => {
             minimumValue={0}
             maximumValue={1}
             value={calculateSeekbar()}
-            minimumTrackTintColor={color.FONT_MEDIUM}
+            minimumTrackTintColor='white'
             maximumTrackTintColor={color.ACTIVE_BG}
             onValueChange={(value) => {
               setCurrentPosition(
@@ -162,20 +178,20 @@ const renderCurrentTime  = () => {
             <TouchableHighlight
               onPress={handleRandom}
               activeOpacity={0.5}
-              underlayColor={color.MODAL_BG}
+              underlayColor={"#4ECCA3"}
               style={{ borderRadius: 40 }}
             >
               <PlayerButtons
                 iconType="RANDOM"
                 size={32}
-                color={context.isRandom ? "blue" : "black"}
+                color={context.isRandom ? '#4ECCA3' : "white"}
                 style={{ padding: 20 }}
               ></PlayerButtons>
             </TouchableHighlight>
             <TouchableHighlight
               onPress={handlePrevious}
               activeOpacity={0.5}
-              underlayColor={color.MODAL_BG}
+              underlayColor={"#4ECCA3"}
               style={{ borderRadius: 40 }}
             >
               <PlayerButtons
@@ -187,7 +203,7 @@ const renderCurrentTime  = () => {
             <TouchableHighlight
               onPress={handlePlayPause}
               activeOpacity={0.5}
-              underlayColor={color.MODAL_BG}
+              underlayColor={"#4ECCA3"}
               style={{ borderRadius: 40 }}
             >
               <PlayerButtons
@@ -199,7 +215,7 @@ const renderCurrentTime  = () => {
             <TouchableHighlight
               onPress={handleNext}
               activeOpacity={0.5}
-              underlayColor={color.MODAL_BG}
+              underlayColor={"#4ECCA3"}
               style={{ borderRadius: 40 }}
             >
               <PlayerButtons
@@ -211,13 +227,13 @@ const renderCurrentTime  = () => {
             <TouchableHighlight
               onPress={handleLoop}
               activeOpacity={0.5}
-              underlayColor={color.MODAL_BG}
+              underlayColor={"#4ECCA3"}
               style={{ borderRadius: 40 }}
             >
               <PlayerButtons
                 iconType="LOOP"
                 size={32}
-                color={context.isLooping ? "blue" : "black"}
+                color={context.isLooping ? '#4ECCA3' : "white"}
                 style={{ padding: 20 }}
               ></PlayerButtons>
             </TouchableHighlight>
@@ -237,9 +253,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   audioCount: {
-    textAlign: "right",
-    color: color.FONT_LIGHT,
-    fontSize: 14,
+    textAlign: 'right',
+    paddingStart: 70,
+    color: 'white',
+    fontSize: 20,
   },
   midBannerContainer: {
     flex: 1,
@@ -247,8 +264,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   audioTitle: {
-    fontSize: 16,
-    color: color.FONT,
+    fontSize: 22,
+    color: "white",
     padding: 15,
   },
   audioControllers: {
@@ -261,6 +278,7 @@ const styles = StyleSheet.create({
   timeDurationContainer: {
     textAlign: "right",
     paddingEnd: 20,
+    color: "white",
   },
   button: {
     alignItems: "center",

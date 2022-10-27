@@ -129,6 +129,8 @@ export class AudioProvider extends Component {
         this.state.currentAudio,
         this.state.currentAudioIndex,
         playbackStatus.positionMillis,
+        this.state.isPlayListRunning,
+        this.state.activePlayList,
       );
     }
     //play next song when playing song is finished
