@@ -1,10 +1,8 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import AppNavigator from "./app/navigation/AppNavigator";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import { StatusBar, View } from "react-native";
 import AudioProvider from "./app/context/AudioProvider";
-import AudioListItem from "./app/components/AudioListItem";
 import color from "./app/misc/color";
+import AppNavigator from "./app/navigation/AppNavigator";
 
 const MyTheme = {
   ...DefaultTheme,

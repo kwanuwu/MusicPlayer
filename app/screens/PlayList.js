@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Alert, ScrollView, StyleSheet, Text, TouchableOpacity
+  Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View
 } from "react-native";
 import PlayListInputModal from "../components/PlayListInputModal";
 import { AudioContext } from "../context/AudioProvider";
@@ -9,7 +9,6 @@ import color from "../misc/color";
 let selectedPlayList = {};
 const PlayList = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [showPlayList, setShowPlayList] = useState(false);
   const context = useContext(AudioContext);
   const { playList, addToPlayList, updateState } = context;
   const createPlayList = async (playListName) => {
@@ -92,7 +91,7 @@ const handleBannerPress = async (playList) => {
   navigation.navigate('PlayListDetail', playList);
 }
   return (
-    <>
+    <View style = {{backgroundColor: '#3a3d46', height: '100%'}}>
     <ScrollView contentContainerStyle={styles.container}>
       {playList.length
         ? playList.map((item) => (
@@ -101,7 +100,7 @@ const handleBannerPress = async (playList) => {
               style={styles.playListBanner}
               onPress = {() => handleBannerPress(item)}
             >
-              <Text>{item.title}</Text>
+              <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 22}}>{item.title}</Text>
               <Text style={styles.audioCount}>
                 {item.audios.length > 1
                   ? `${item.audios.length} Songs`
@@ -122,7 +121,7 @@ const handleBannerPress = async (playList) => {
         onSubmit={createPlayList}
       ></PlayListInputModal>
     </ScrollView>
-    </>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -133,15 +132,18 @@ const styles = StyleSheet.create({
     marginTop: 3,
     opacity: 0.5,
     fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white'
   },
   playListBanner: {
-    padding: 5,
+    padding: 15,
     backgroundColor: "rgba(204,204,204,0.3)",
     borderRadius: 10,
     marginBottom: 15,
+    height: 90,
   },
   playListButton: {
-    color: color.ACTIVE_BG,
+    color: 'white',
     letterSpacing: 1,
     fontWeight: "bold",
     fontSize: 14,
