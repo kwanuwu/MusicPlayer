@@ -123,7 +123,7 @@ const PlayListDetail = (props) => {
             paddingHorizontal: 15,
           }}
         >
-          <Text style={[styles.title, { fontSize: 35 }]}>{playList.title}</Text>
+          <Text style={[styles.title, { fontSize: 35, color: 'white' }]}>{playList.title}</Text>
           <TouchableOpacity onPress={removePlaylist}>
             <Text
               style={[

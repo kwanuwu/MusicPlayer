@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 
 const PlayListScreen = () => {
 return <Stack.Navigator screenOptions={{headerShown: false}}>
-  <Stack.Screen name = 'PlayList' component={PlayList}></Stack.Screen>
+  <Stack.Screen name = 'Playlist' component={PlayList}></Stack.Screen>
   <Stack.Screen name = 'PlayListDetail' component={PlayListDetail}></Stack.Screen>
 </Stack.Navigator>
 
@@ -52,7 +52,7 @@ const AppNavigator = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Playlist"
+        name="PlayList"
         component={PlayListScreen}
         options={{
           headerShown: false,
