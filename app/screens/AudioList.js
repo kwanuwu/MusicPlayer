@@ -5,15 +5,7 @@ import { RecyclerListView, LayoutProvider } from "recyclerlistview";
 import AudioListItem from "../components/AudioListItem";
 import Screen from "../components/Screen";
 import OptionModels from "../components/OptionModels";
-import { Audio } from "expo-av";
-import { storeAudioForNextOpening } from "../misc/helper";
-import {
-  pause,
-  play,
-  playNextSong,
-  resume,
-  selectAudio,
-} from "../misc/audioController";
+import { selectAudio } from "../misc/audioController";
 export class AudioList extends Component {
   static contextType = AudioContext;
   constructor(props) {
@@ -29,7 +21,7 @@ export class AudioList extends Component {
       switch (type) {
         case "audio":
           dim.width = Dimensions.get("window").width;
-          dim.height = 70;
+          dim.height = 80;
           break;
         default:
           dim.height = 0;
@@ -67,11 +59,11 @@ export class AudioList extends Component {
       addToPlayList: this.currentItem,
     });
     this.props.navigation.navigate("PlayList");
-  }
+  };
 
   playAudio = async () => {
-    await selectAudio(this.audio, this.context);
-  }
+    await selectAudio(this.currentItem, this.context);
+  };
 
   render() {
     return (
@@ -81,7 +73,7 @@ export class AudioList extends Component {
             if (!dataProvider._data.length) return null;
             return (
               <Screen>
-                <Text style = {styles.title}>All songs</Text>
+                <Text style={styles.title}>All songs</Text>
                 <RecyclerListView
                   dataProvider={dataProvider}
                   layoutProvider={this.layoutProvider}
@@ -95,7 +87,13 @@ export class AudioList extends Component {
                   //   });
                   //   this.props.navigation.navigate("PlayList");
                   // }}
-                  options = {[{title: 'Play', onPress: this.playAudio},{title: 'Add to playlist', onPress: this.navigateToPlayList}]}
+                  options={[
+                    { title: "Play", onPress: this.playAudio },
+                    {
+                      title: "Add to playlist",
+                      onPress: this.navigateToPlayList,
+                    },
+                  ]}
                   currentItem={this.currentItem}
                   onClose={() =>
                     this.setState({ ...this.state, optionModalVisible: false })
@@ -117,12 +115,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 30,
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     marginBottom: 20,
-    color: 'white',
-  }
+    color: "white",
+  },
 });
 export default AudioList;

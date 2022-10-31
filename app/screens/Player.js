@@ -19,7 +19,6 @@ import {
   selectAudio,
 } from "../misc/audioController";
 import color from "../misc/color";
-
 const { width } = Dimensions.get("window");
 const Player = () => {
   const [currentPosition, setCurrentPosition] = useState(0);
@@ -35,7 +34,7 @@ const Player = () => {
     return 0;
   };
   useEffect(() => {
-    context.loadPreviousAudio();
+    context.loadPreviousAudio()
   }, []);
   if (!context.currentAudio) return null;
   //convert millis to minutes and second
@@ -117,7 +116,7 @@ const Player = () => {
         <View style={styles.audioCountContainer}>
           <View style={{ flexDirection: "row" }}>
             {context.isPlayListRunning && (
-              <>
+              <View >
                 <Text
                   style={{ fontWeight: "bold", color: "white", fontSize: 20 }}
                 >
@@ -126,20 +125,20 @@ const Player = () => {
                 <Text style={{ color: "white", fontSize: 20 }}>
                   {context.activePlayList.title}
                 </Text>
+              </View>
+            )}
                 <Text style={styles.audioCount}>
                   {`${context.currentAudioIndex + 1} / ${
                     context.totalAudioCount
                   }`}
                 </Text>
-              </>
-            )}
           </View>
         </View>
         <View style={styles.midBannerContainer}>
           <MaterialCommunityIcons
             name="music-circle"
             size={340}
-            color={context.isPlaying ? '#1ed561' : 'white'}
+            color={context.isPlaying ? "#1ed561" : "white"}
           />
         </View>
         <View style={styles.audioPlayerContainer}>
@@ -154,7 +153,7 @@ const Player = () => {
             minimumValue={0}
             maximumValue={1}
             value={calculateSeekbar()}
-            minimumTrackTintColor='white'
+            minimumTrackTintColor="white"
             maximumTrackTintColor={color.ACTIVE_BG}
             onValueChange={(value) => {
               setCurrentPosition(
@@ -184,7 +183,7 @@ const Player = () => {
               <PlayerButtons
                 iconType="RANDOM"
                 size={32}
-                color={context.isRandom ? '#4ECCA3' : "white"}
+                color={context.isRandom ? "#4ECCA3" : "white"}
                 style={{ padding: 20 }}
               ></PlayerButtons>
             </TouchableHighlight>
@@ -233,7 +232,7 @@ const Player = () => {
               <PlayerButtons
                 iconType="LOOP"
                 size={32}
-                color={context.isLooping ? '#4ECCA3' : "white"}
+                color={context.isLooping ? "#4ECCA3" : "white"}
                 style={{ padding: 20 }}
               ></PlayerButtons>
             </TouchableHighlight>
@@ -253,10 +252,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   audioCount: {
-    textAlign: 'right',
-    paddingStart: 70,
-    color: 'white',
+    color: "white",
     fontSize: 20,
+    paddingLeft: 150,
   },
   midBannerContainer: {
     flex: 1,

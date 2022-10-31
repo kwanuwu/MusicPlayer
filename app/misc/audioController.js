@@ -1,4 +1,5 @@
 import { storeAudioForNextOpening } from "./helper";
+import { Audio } from "expo-av";
 //play
 export const play = async (playbackObj, uri, lastPosition) => {
   try {
@@ -59,6 +60,13 @@ export const selectAudio = async (audio, context, playListInfo = {}) => {
   } = context;
   // playing audio 1st time
   try {
+    await Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+      shouldDuckAndroid: true,
+      playThroughEarpieceAndroid: true,
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true,
+    });
     if (soundObj == null) {
       const status = await play(playbackObj, audio.uri, audio.lastPosition);
       const index = audioFiles.findIndex(({ id }) => id === audio.id);
@@ -68,6 +76,7 @@ export const selectAudio = async (audio, context, playListInfo = {}) => {
         isPlaying: true,
         currentAudioIndex: index,
         isPlayListRunning: false,
+        staysActiveInBackground: true,
         activePlayList: [],
         ...playListInfo,
       });
@@ -108,6 +117,7 @@ export const selectAudio = async (audio, context, playListInfo = {}) => {
         isPlaying: true,
         currentAudioIndex: index,
         isPlayListRunning: false,
+        staysActiveInBackground: true,
         activePlayList: [],
         ...playListInfo,
       });

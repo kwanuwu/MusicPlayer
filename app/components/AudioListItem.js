@@ -35,9 +35,9 @@ export const convertTime = (minutes) => {
 const renderPlayPauseIcon = (isPlaying) => {
   if (isPlaying)
     return (
-      <Entypo name="controller-paus" size={24} color={color.ACTIVE_FONT} />
+      <Entypo name="controller-paus" size={27} color={color.ACTIVE_FONT} />
     );
-  return <Entypo name="controller-play" size={24} color={color.ACTIVE_FONT} />;
+  return <Entypo name="controller-play" size={27} color={color.ACTIVE_FONT} />;
 };
 const AudioListItem = ({
   title,
@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   rightContainer: {
-    flexBasis: 60,
-    height: 60,
+    flexBasis: 70,
+    height: 70,
     alignItems: "center",
     justifyContent: "center",
   },
   thumbnail: {
-    height: 60,
-    flexBasis: 60,
+    height: 70,
+    flexBasis: 70,
     justifyContent: "center",
     alignItems: "center",
   },
