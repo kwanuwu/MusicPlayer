@@ -64,10 +64,18 @@ export class AudioProvider extends Component {
     });
   };
 
+  componentDidMount() {
+    this.getPermission();
+    if (this.state.playbackObj === null) {
+      this.setState({ ...this.state, playbackObj: new Audio.Sound() });
+    }
+  }
+
   loadPreviousAudio = async () => {
     let previousAudio = await AsyncStorage.getItem("previousAudio");
     let currentAudio;
     let currentAudioIndex;
+    let lastActivePlaylist;
 
     if (previousAudio === null) {
       currentAudio = this.state.audioFiles[0];
@@ -76,8 +84,9 @@ export class AudioProvider extends Component {
       previousAudio = JSON.parse(previousAudio);
       currentAudio = previousAudio.audio;
       currentAudioIndex = previousAudio.index;
+
     }
-    this.setState({ ...this.state, currentAudio, currentAudioIndex });
+    this.setState({ ...this.state, currentAudio, currentAudioIndex});
   };
 
   //get permission from user when mount music from device
@@ -123,21 +132,12 @@ export class AudioProvider extends Component {
         playbackDuration: playbackStatus.durationMillis,
       });
     }
-    // await Audio.setAudioModeAsync({
-    //   staysActiveInBackground: true,
-    //   interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-    //   shouldDuckAndroid: true,
-    //   playThroughEarpieceAndroid: true,
-    //   allowsRecordingIOS: true,
-    //   interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-    //   playsInSilentModeIOS: true,
-    // });
+
     if (playbackStatus.isLoaded && !playbackStatus.isPlaying) {
       storeAudioForNextOpening(
         this.state.currentAudio,
         this.state.currentAudioIndex,
         playbackStatus.positionMillis,
-        this.state.activePlayList,
       );
     }
     //play next song when playing song is finished
@@ -251,12 +251,6 @@ export class AudioProvider extends Component {
     }
   };
 
-  componentDidMount() {
-    this.getPermission();
-    if (this.state.playbackObj === null) {
-      this.setState({ ...this.state, playbackObj: new Audio.Sound() });
-    }
-  }
   updateState = (preState, newState = {}) => {
     this.setState({ ...preState, ...newState });
   };

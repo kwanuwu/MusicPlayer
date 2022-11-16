@@ -7,6 +7,8 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import PlayListDetail from "../screens/PlayListDetail";
+import Search from "../screens/Search";
+import Settings from "../screens/Settings";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -28,7 +30,7 @@ const AppNavigator = () => {
       tabBarStyle: {borderTopWidth: 0,
       backgroundColor: '#232a32'},
       detachInactiveTabs: true,
-      tabBarLabelStyle: { fontSize: 12 },
+      tabBarLabelStyle: { fontSize: 12},
       tabBarHideOnKeyboard: true,
     })}>
       <Tab.Screen
@@ -36,11 +38,22 @@ const AppNavigator = () => {
         component={AudioList}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size}) => (
             <Feather name="headphones" size={size} color={color} />
           ),
         }}
       ></Tab.Screen>
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="search" size={size} color={color} />
+          ),
+        }}
+      >
+      </Tab.Screen>
       <Tab.Screen
         name="Player"
         component={Player}
@@ -58,6 +71,16 @@ const AppNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Entypo name="folder-music" size={size} color={color} />
+          ),
+        }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="settings" size={size} color={color} />
           ),
         }}
       ></Tab.Screen>
