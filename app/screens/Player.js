@@ -16,6 +16,7 @@ import {
   changeAudio,
   moveAudio,
   pause,
+  play,
   selectAudio,
 } from "../misc/audioController";
 import color from "../misc/color";
@@ -35,6 +36,7 @@ const Player = () => {
   };
   useEffect(() => {
     context.loadPreviousAudio()
+    
   }, []);
   if (!context.currentAudio) return null;
   //convert millis to minutes and second
@@ -63,7 +65,7 @@ const Player = () => {
     await changeAudio(context, "previous");
   };
   //handle random button
-  const handleRandom = () => {
+  const handleRandom = async () => {
     context.isLooping = false;
     if (context.isRandom === true) {
       context.isRandom = false;
@@ -161,7 +163,7 @@ const Player = () => {
               );
             }}
             onSlidingStart={async () => {
-              if (context.isPlaying) return;
+              if (!context.isPlaying) return;
               try {
                 await pause(context.playbackObj);
               } catch (error) {
