@@ -9,28 +9,17 @@ import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import color from "../misc/color";
 const getThumbnailText = (filename) => filename[0];
-export const convertTime = (minutes) => {
-  if (minutes) {
-    const hrs = minutes / 60;
-    const minute = hrs.toString().split(".")[0];
-    const percent = parseInt(hrs.toString().split(".")[1].slice(0, 2));
-    const sec = Math.ceil((60 * percent) / 100);
-
-    if (parseInt(minute) < 10 && sec < 10) {
-      return `0${minute}:0${sec}`;
-    }
-    if(sec == 60) {
-      return `${minute+1}:00`;
-    }
-    if (parseInt(minute) < 10) {
-      return `0${minute}:${sec}`;
-    }
-    ``;
-    if (sec < 10) {
-      return `${minute}:0${sec}`;
-    }
-    return `${minute}:${sec}`;
+export const convertTime = (duration) => {
+  var hrs = ~~(duration / 3600)
+  var mins = ~~((duration % 3600) / 60)
+  var secs = ~~duration % 60
+  var ret = ''
+  if (hrs > 0) {
+    ret += '' + hrs + ':' + (mins < 10 ? '0' : '')
   }
+  ret += '' + mins + ':' + (secs < 10 ? '0' : '')
+  ret += '' + secs
+  return ret
 };
 const renderPlayPauseIcon = (isPlaying) => {
   if (isPlaying)
