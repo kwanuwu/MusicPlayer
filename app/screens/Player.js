@@ -145,7 +145,7 @@ const Player = () => {
         </View>
         <View style={styles.audioPlayerContainer}>
           <Text numberOfLines={1} style={styles.audioTitle}>
-            {context.currentAudio.filename.split("-FLAC", 1)}
+            {context.currentAudio.filename}
           </Text>
           <Text style={styles.timeDurationContainer}>
             {renderCurrentTime()}

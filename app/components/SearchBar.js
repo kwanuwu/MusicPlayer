@@ -2,7 +2,7 @@ import { StyleSheet, TextInput, View } from "react-native";
 import React from "react";
 import { useState } from "react";
 import Icon from 'react-native-vector-icons/Ionicons'
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native'
 
 function SearchBar(props) {
   const { onSubmit } = props;
@@ -24,17 +24,20 @@ function SearchBar(props) {
     </View>
   );
 }
+const { width } = Dimensions.get("window");
 
 export default SearchBar;
 const styles = StyleSheet.create({
   searchBar: {
     marginTop: 32,
+    marginBottom: 12,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "grey",
     justifyContent: "space-between",
     borderRadius: 12,
-    width: '100%'
+    marginLeft: 14,
+    marginRight: 14,
   },
   textInput: {
     fontSize: 18,
@@ -42,7 +45,8 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingLeft: 16,
     paddingRight: 16,
-    color: 'white'
+    color: 'white',
+    width: '83.333333%',
   },
   searchIcon: {
     marginRight: 4,

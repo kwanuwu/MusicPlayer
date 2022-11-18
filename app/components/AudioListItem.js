@@ -58,7 +58,7 @@ const AudioListItem = ({
                   borderRadius: 12,
                   backgroundColor: activeListItem
                     ? '#4ecda4'
-                    : color.FONT_LIGHT,
+                    : 'white',
                 },
               ]}
             >
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 13,
+    marginBottom: 10
   },
   leftContainer: {
     flexDirection: "row",
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   thumbnailText: {
     fontSize: 22,
     fontWeight: "bold",
-    color: 'white',
+    color: 'black',
   },
   titleContainer: {
     width: width - 180,
