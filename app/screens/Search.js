@@ -40,8 +40,8 @@ function Search({navigation}) {
           duration: resultSongsArray.find((song) => song.encodeId === key).duration,
           uri: res.data['128'],
         }
-        await selectAudio(audio, context)
         navigation.navigate('Player')
+        await selectAudio(audio, context)
       } catch (error) {
         console.log(error.message)
       }
