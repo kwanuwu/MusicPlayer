@@ -35,8 +35,7 @@ const Player = () => {
     return 0;
   };
   useEffect(() => {
-    context.loadPreviousAudio()
-    
+    context.loadPreviousAudio();
   }, []);
   if (!context.currentAudio) return null;
   //convert millis to minutes and second
@@ -118,7 +117,7 @@ const Player = () => {
         <View style={styles.audioCountContainer}>
           <View style={{ flexDirection: "row" }}>
             {context.isPlayListRunning && (
-              <View >
+              <View>
                 <Text
                   style={{ fontWeight: "bold", color: "white", fontSize: 20 }}
                 >
@@ -129,11 +128,9 @@ const Player = () => {
                 </Text>
               </View>
             )}
-                <Text style={styles.audioCount}>
-                  {`${context.currentAudioIndex + 1} / ${
-                    context.totalAudioCount
-                  }`}
-                </Text>
+            <Text style={styles.audioCount}>
+              {`${context.currentAudioIndex + 1} / ${context.totalAudioCount}`}
+            </Text>
           </View>
         </View>
         <View style={styles.midBannerContainer}>
