@@ -70,7 +70,27 @@ export class AudioList extends Component {
       <View style={{ flex: 1 }}>
         <AudioContext.Consumer>
           {({ dataProvider, isPlaying }) => {
-            if (!dataProvider._data.length) return null;
+            if (!dataProvider._data.length)
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      textAlign: "center",
+                      color: "black",
+                    }}
+                  >
+                    There is no audio in your device. You may go to Search to
+                    listen to music online.
+                  </Text>
+                </View>
+              );
             return (
               <Screen>
                 <Text style={styles.title}>All songs</Text>
