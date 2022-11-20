@@ -1,23 +1,12 @@
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import React from "react";
-import AudioProvider from "./app/context/AudioProvider";
-import color from "./app/misc/color";
-import AppNavigator from "./app/navigation/AppNavigator";
-
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: color.APP_BG,
-  }
-}
+import AppProvider from './app/context/AppProvider'
+import Index from './index'
+import { registerRootComponent } from 'expo'
+import React from 'react'
 
 export default function App() {
   return (
-    <AudioProvider>
-      <NavigationContainer theme = {MyTheme}>
-        <AppNavigator />
-      </NavigationContainer>
-    </AudioProvider>
-  );
+    <AppProvider>
+      <Index />
+    </AppProvider>
+  )
 }
