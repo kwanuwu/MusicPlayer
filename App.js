@@ -1,8 +1,15 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from "react";
 import AudioProvider from "./app/context/AudioProvider";
+import { AppContext } from './app/context/AppProvider';
+import AppProvider from "./app/context/AppProvider";
 import color from "./app/misc/color";
 import AppNavigator from "./app/navigation/AppNavigator";
+import { useContext } from 'react';
+import { StatusBar } from 'react-native';
+import Login from './app/screens/Login';
+import Register from './app/screens/Register';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -13,11 +20,31 @@ const MyTheme = {
 }
 
 export default function App() {
+  const appContext = useContext(AppContext);
+  const Stack = createNativeStackNavigator();
+
   return (
-    <AudioProvider>
-      <NavigationContainer theme = {MyTheme}>
-        <AppNavigator />
-      </NavigationContainer>
-    </AudioProvider>
+    <AppProvider>
+      <AudioProvider>
+        <NavigationContainer theme = {MyTheme}>
+        <StatusBar showHideTransition="true" />
+          {!appContext ? (
+            <>
+              <Stack.Navigator
+                initialRouteName="Login"
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="Login" component={Login} />
+              </Stack.Navigator>
+            </>
+          ) : (
+            <AppNavigator />
+          )}
+        </NavigationContainer>
+      </AudioProvider>
+    </AppProvider>
   );
 }
