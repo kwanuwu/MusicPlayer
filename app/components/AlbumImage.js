@@ -4,7 +4,7 @@ function AlbumImage() {
   return (
     <Image
       style={styles.container}
-      source={require("../../assets/album.webp")}
+      source={require("../../assets/music1.png")}
     ></Image>
   );
 }
