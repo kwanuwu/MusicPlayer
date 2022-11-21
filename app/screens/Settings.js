@@ -1,71 +1,70 @@
-import { AppContext } from '../context/AppProvider'
-import { authentication } from '../misc/services'
+import { AppContext } from "../context/AppProvider";
+import { authentication } from "../misc/services";
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState, useCallback } from 'react'
-import Screen from '../components/Screen'
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useContext, useState, useCallback } from "react";
+import Screen from "../components/Screen";
 
 function Settings() {
-  const appContext = useContext(AppContext)
-  const data = { username: appContext.username }
+  const appContext = useContext(AppContext);
+  const data = { username: appContext.username };
 
-  const [logoutError, setLogoutError] = useState('')
+  const [logoutError, setLogoutError] = useState("");
 
   const handleLogout = useCallback(async () => {
-    const res = await authentication({ action: 'logout', data })
+    const res = await authentication({ action: "logout", data });
     try {
       if (res.status === 401) {
-        setLogoutError(res.message)
+        setLogoutError(res.message);
       } else {
         appContext.updateState(appContext, {
           loggedIn: false,
-        })
+        });
       }
     } catch (error) {
-      setLogoutError = error.message
+      setLogoutError = error.message;
     }
-  }, [data])
+  }, [data]);
 
   return (
     <View style={styles.View}>
-      <TouchableOpacity
-        style={styles.TouchableOpacity}
-        onPress={handleLogout}
-      >
+      <TouchableOpacity style={styles.TouchableOpacity} onPress={handleLogout}>
         <Text style={styles.Text}>Logout </Text>
       </TouchableOpacity>
       {logoutError ? <Text style={styles.error}>{logoutError}</Text> : null}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   error: {
     fontSize: 16,
-    color: 'red',
+    color: "red",
     marginTop: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   View: {
     paddingLeft: 32,
     paddingRight: 32,
-    backgroundColor: '#333333',
-    height: '100%',
-    justifyContent: 'center',
+    backgroundColor: "#333333",
+    height: "100%",
+    justifyContent: "center",
   },
   Text: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
     lineHeight: 28,
-    padding: 16
+    padding: 16,
+    fontWeight: "bold",
   },
   TouchableOpacity: {
     marginTop: 32,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderRadius: 12,
-    justifyContent: 'center',
-  }
-})
+    justifyContent: "center",
+    backgroundColor: "red",
+  },
+});
 
-export default Settings
+export default Settings;

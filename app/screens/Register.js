@@ -1,12 +1,12 @@
-import AppLogo from '../components/AppLogo'
-import CustomizeButton from '../components/CustomizeButton'
-import Navigator from '../components/Navigator'
-import { authentication } from '../misc/services'
-import { emailPattern, passwordPattern } from '../patterns/pattern'
-import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import CustomizeButton from "../components/CustomizeButton";
+import Navigator from "../components/Navigator";
+import { authentication } from "../misc/services";
+import { emailPattern, passwordPattern } from "../patterns/pattern";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AlbumImage from "../components/AlbumImage";
 
 function Register({ navigation }) {
   const {
@@ -16,37 +16,37 @@ function Register({ navigation }) {
     watch,
   } = useForm({
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
-  })
+  });
 
-  const [usernameExisted, setUsernameExisted] = useState(null)
-  const [emailExisted, setEmailExisted] = useState(null)
+  const [usernameExisted, setUsernameExisted] = useState(null);
+  const [emailExisted, setEmailExisted] = useState(null);
   const onSubmit = async (data) => {
-    const res = await authentication({ action: 'register', data })
+    const res = await authentication({ action: "register", data });
     try {
       if (res.status === 401) {
-        if (res.type === 'username') {
-          setUsernameExisted(res.message)
-        } else if (res.type === 'email') {
-          setEmailExisted(res.message)
+        if (res.type === "username") {
+          setUsernameExisted(res.message);
+        } else if (res.type === "email") {
+          setEmailExisted(res.message);
         }
       } else {
-        setUsernameExisted(null)
-        setEmailExisted(null)
-        navigation.navigate({ name: 'Login' })
+        setUsernameExisted(null);
+        setEmailExisted(null);
+        navigation.navigate({ name: "Login" });
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   return (
     <KeyboardAwareScrollView style={styles.KeyboardAwareScrollView}>
-      <AppLogo />
+      <AlbumImage />
       <View>
         {/* USERNAME */}
         <Text style={styles.span}>Username</Text>
@@ -57,15 +57,15 @@ function Register({ navigation }) {
               style={styles.input}
               onBlur={onBlur}
               onChangeText={(value) => {
-                onChange(value)
-                if (usernameExisted) setUsernameExisted(null)
+                onChange(value);
+                if (usernameExisted) setUsernameExisted(null);
               }}
               value={value}
             />
           )}
           name="username"
           rules={{
-            required: 'Username is required',
+            required: "Username is required",
           }}
         />
         {errors.username && (
@@ -81,16 +81,16 @@ function Register({ navigation }) {
               style={styles.input}
               onBlur={onBlur}
               onChangeText={(value) => {
-                onChange(value)
-                if (emailExisted) setEmailExisted(null)
+                onChange(value);
+                if (emailExisted) setEmailExisted(null);
               }}
               value={value}
             />
           )}
           name="email"
           rules={{
-            required: 'Email is required',
-            pattern: { value: emailPattern, message: 'Wrong email validation' },
+            required: "Email is required",
+            pattern: { value: emailPattern, message: "Wrong email validation" },
           }}
         />
         {errors.email && (
@@ -112,11 +112,11 @@ function Register({ navigation }) {
           )}
           name="password"
           rules={{
-            required: 'Password is required',
+            required: "Password is required",
             pattern: {
               value: passwordPattern,
               message:
-                'Password must contain at least eight characters, at least one letter and one number!',
+                "Password must contain at least eight characters, at least one letter and one number!",
             },
           }}
         />
@@ -138,14 +138,14 @@ function Register({ navigation }) {
           )}
           name="confirmPassword"
           rules={{
-            required: 'Confirm Password is required',
+            required: "Confirm Password is required",
             pattern: {
               value: passwordPattern,
               message:
-                'Password must contain at least eight characters, at least one letter and one number!',
+                "Password must contain at least eight characters, at least one letter and one number!",
             },
             validate: (value) =>
-              value === watch('password') || 'Passwords must match',
+              value === watch("password") || "Passwords must match",
           }}
         />
         {errors.confirmPassword && (
@@ -160,24 +160,24 @@ function Register({ navigation }) {
         <CustomizeButton pressed={handleSubmit(onSubmit)} title="Register" />
       </View>
     </KeyboardAwareScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   span: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
     marginTop: 10,
     marginBottom: 10,
   },
   error: {
     fontSize: 12,
-    color: 'red',
+    color: "red",
   },
   input: {
-    borderColor: 'white',
-    color: 'white',
+    borderColor: "white",
+    color: "white",
     borderRadius: 5,
     padding: 10,
     borderWidth: 1,
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
     paddingLeft: 32,
     paddingRight: 32,
     paddingTop: 32,
-    backgroundColor: "#3a3d46"
-  }
-})
+    backgroundColor: "#3a3d46",
+  },
+});
 
-export default Register
+export default Register;

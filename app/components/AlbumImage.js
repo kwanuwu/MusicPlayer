@@ -4,10 +4,7 @@ function AlbumImage() {
   return (
     <Image
       style={styles.container}
-      source={{
-        uri: "https://static.wikia.nocookie.net/a-perfect-circle/images/2/28/A-perfect-circle-mer-de-noms-1-.jpg/revision/latest/scale-to-width-down/250?cb=20140212152834",
-      }}
-      // source = {require('C:\Users\Admin\musicApp\assets\album.webp')}
+      source={require("../../assets/album.webp")}
     ></Image>
   );
 }

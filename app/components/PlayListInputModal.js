@@ -11,24 +11,28 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import color from "../misc/color";
 const PlayListInputModal = ({ visible, onClose, onSubmit }) => {
-
-    const [playListName, setPlayListName] = useState('')
-    const handleOnSumbit = () => {
-        if(!playListName.trim()) {
-            onClose()
-        } else {
-            onSubmit(playListName)
-            setPlayListName('')
-            onClose()
-        }
+  const [playListName, setPlayListName] = useState("");
+  const handleOnSumbit = () => {
+    if (!playListName.trim()) {
+      onClose();
+    } else {
+      onSubmit(playListName);
+      setPlayListName("");
+      onClose();
     }
+  };
   return (
     <Modal visible={visible} animationType="fade" transparent>
       <View style={styles.modalContainer}>
         <View style={styles.inputContainer}>
           <Text style={{ color: color.ACTIVE_BG }}>Create New Playlist</Text>
-          <TextInput value = {playListName} onChangeText = {(text) => setPlayListName(text)} style={styles.input} textAlign={"center"} keyboardType="visible-password"
-></TextInput>
+          <TextInput
+            value={playListName}
+            onChangeText={(text) => setPlayListName(text)}
+            style={styles.input}
+            textAlign={"center"}
+            keyboardType="visible-password"
+          ></TextInput>
           <AntDesign
             style={styles.submitIcon}
             name="check"

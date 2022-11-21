@@ -136,7 +136,6 @@ const PlayListDetail = (props) => {
       playListAudio(audios[0]);
     }
   };
-
   return (
     <View style={{ backgroundColor: "#3a3d46", height: "100%" }}>
       <View>
@@ -226,7 +225,7 @@ const PlayListDetail = (props) => {
               fontWeight: "bold",
               color: color.FONT_LIGHT,
               fontSize: 30,
-              textAlign: 'center',
+              textAlign: "center",
               marginTop: 30,
             }}
           >

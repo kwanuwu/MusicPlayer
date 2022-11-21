@@ -17,7 +17,7 @@ export default Navigator
 const styles = StyleSheet.create({
     View: {
       flexDirection: "row",
-      alignItems: "center",
+      alignSelf: 'center'
     },
     Text_1: {
         color: "white",
@@ -27,9 +27,10 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     Text_2: {
-        color: "rgba(59, 130, 246)",
+        color: '#67e8f9',
         fontWeight: "bold",
         fontSize: 12,
         lineHeight: 16,
+        marginTop: 16
     }
 });

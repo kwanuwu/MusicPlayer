@@ -37,7 +37,7 @@ function Search({ navigation }) {
           id: resultSongsArray.find((song) => song.encodeId === key).id,
           duration: resultSongsArray.find((song) => song.encodeId === key)
             .duration,
-          uri: res.data['128'],
+          uri: res.data["128"],
         };
         navigation.navigate("Player");
         await selectAudio(audio, context);

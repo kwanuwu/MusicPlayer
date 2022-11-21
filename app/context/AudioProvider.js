@@ -84,9 +84,8 @@ export class AudioProvider extends Component {
       previousAudio = JSON.parse(previousAudio);
       currentAudio = previousAudio.audio;
       currentAudioIndex = previousAudio.index;
-
     }
-    this.setState({ ...this.state, currentAudio, currentAudioIndex});
+    this.setState({ ...this.state, currentAudio, currentAudioIndex });
   };
 
   //get permission from user when mount music from device
@@ -137,7 +136,7 @@ export class AudioProvider extends Component {
       storeAudioForNextOpening(
         this.state.currentAudio,
         this.state.currentAudioIndex,
-        playbackStatus.positionMillis,
+        playbackStatus.positionMillis
       );
     }
     //play next song when playing song is finished

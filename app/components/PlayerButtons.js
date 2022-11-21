@@ -1,6 +1,5 @@
 import React from "react";
-import Icon from 'react-native-vector-icons/Ionicons';
-
+import Icon from "react-native-vector-icons/Ionicons";
 
 const PlayerButtons = (props) => {
   const { iconType, iconColor = "white" } = props;
@@ -21,11 +20,7 @@ const PlayerButtons = (props) => {
     }
   };
   return (
-    <Icon
-      name={getIconName(iconType)}
-      color={iconColor}
-      {...props}
-    ></Icon>
+    <Icon name={getIconName(iconType)} color={iconColor} {...props}></Icon>
   );
 };
 

@@ -10,26 +10,23 @@ import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import color from "../misc/color";
 
-const OptionModels = ({
-  visible,
-  currentItem,
-  onClose,
-  options,
-}) => {
-  const { filename } = currentItem
+const OptionModels = ({ visible, currentItem, onClose, options }) => {
+  const { filename } = currentItem;
   return (
     <>
       <StatusBar hidden />
-      <Modal animationType="slice" transparent visible={visible} >
+      <Modal animationType="slice" transparent visible={visible}>
         <View style={styles.modal}>
           <Text style={styles.title} numberOfLines={1}>
             {filename}
           </Text>
           <View style={styles.optionContainer}>
-            {options.map(optn => {
-              return <TouchableOpacity key = {optn.title} onPress={optn.onPress}>
-              <Text style={styles.option}>{optn.title}</Text>
-            </TouchableOpacity>
+            {options.map((optn) => {
+              return (
+                <TouchableOpacity key={optn.title} onPress={optn.onPress}>
+                  <Text style={styles.option}>{optn.title}</Text>
+                </TouchableOpacity>
+              );
             })}
             {/* <TouchableOpacity onPress={onPlayPress}>
               <Text style={styles.option}>Play</Text>
@@ -43,7 +40,7 @@ const OptionModels = ({
           <View style={styles.modalBg} />
         </TouchableWithoutFeedback>
       </Modal>
-      </>
+    </>
   );
 };
 

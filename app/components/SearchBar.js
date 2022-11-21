@@ -1,8 +1,8 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import React from "react";
 import { useState } from "react";
-import Icon from 'react-native-vector-icons/Ionicons'
-import {Dimensions} from 'react-native'
+import Icon from "react-native-vector-icons/Ionicons";
+import { Dimensions } from "react-native";
 
 function SearchBar(props) {
   const { onSubmit } = props;
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingLeft: 16,
     paddingRight: 16,
-    color: 'white',
-    width: '83.333333%',
+    color: "white",
+    width: "83.333333%",
   },
   searchIcon: {
     marginRight: 4,

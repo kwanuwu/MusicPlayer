@@ -1,13 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 import PlayListInputModal from "../components/PlayListInputModal";
 import { AudioContext } from "../context/AudioProvider";
-import color from "../misc/color";
 let selectedPlayList = {};
-const PlayList = ({navigation}) => {
+const PlayList = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const context = useContext(AudioContext);
   const { playList, addToPlayList, updateState } = context;
@@ -55,72 +59,82 @@ const PlayList = ({navigation}) => {
       renderPlayList();
     }
   }, []);
-const handleBannerPress = async (playList) => {
-   //update playlist if audio selected
-   if(addToPlayList) {
-    //check if selectedd audio exists in playlist
-    const result = await AsyncStorage.getItem('playlist');
-    let oldList = [];
-    var updatedList = [];
-    let sameAudio = false;
-    if(result !== null) {
-      oldList = JSON.parse(result)
-      updatedList = oldList.filter(list => {
-        //alert existed audio
-        if(list.id === playList.id) {
-          for(let audio of list.audios) {
-            if(audio.id === addToPlayList.id) {
-              sameAudio = true;
-              return;
+  const handleBannerPress = async (playList) => {
+    //update playlist if audio selected
+    if (addToPlayList) {
+      //check if selectedd audio exists in playlist
+      const result = await AsyncStorage.getItem("playlist");
+      let oldList = [];
+      var updatedList = [];
+      let sameAudio = false;
+      if (result !== null) {
+        oldList = JSON.parse(result);
+        updatedList = oldList.filter((list) => {
+          //alert existed audio
+          if (list.id === playList.id) {
+            for (let audio of list.audios) {
+              if (audio.id === addToPlayList.id) {
+                sameAudio = true;
+                return;
+              }
             }
+            list.audios = [...list.audios, addToPlayList];
           }
-          list.audios = [...list.audios, addToPlayList];
-        }
-        return list; 
-      })
+          return list;
+        });
+      }
+      if (sameAudio) {
+        Alert.alert(
+          "Audio Existed!",
+          `${addToPlayList.filename.split(
+            "-FLAC",
+            1
+          )} is already inside that list.`
+        );
+        sameAudio = false;
+        return updateState(context, { addToPlayList: null });
+      }
+      updateState(context, { addToPlayList: null, playList: [...updatedList] });
+      return AsyncStorage.setItem("playlist", JSON.stringify([...updatedList]));
     }
-    if(sameAudio) {
-      Alert.alert('Audio Existed!' , `${addToPlayList.filename.split("-FLAC",1)} is already inside that list.`)
-      sameAudio = false;
-      return updateState(context, {addToPlayList: null})
-    }
-  updateState(context, {addToPlayList: null, playList: [...updatedList]})
-  return AsyncStorage.setItem('playlist', JSON.stringify([...updatedList]))
-  }
-  selectedPlayList = playList;
-  navigation.navigate('PlayListDetail', playList);
-}
+    selectedPlayList = playList;
+    navigation.navigate("PlayListDetail", playList);
+  };
   return (
-    <View style = {{backgroundColor: '#3a3d46', height: '100%'}}>
-    <ScrollView contentContainerStyle={styles.container}>
-      {playList.length
-        ? playList.map((item) => (
-            <TouchableOpacity
-              key={item.id.toString()}
-              style={styles.playListBanner}
-              onPress = {() => handleBannerPress(item)}
-            >
-              <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 22}}>{item.title}</Text>
-              <Text style={styles.audioCount}>
-                {item.audios.length > 1
-                  ? `${item.audios.length} Songs`
-                  : `${item.audios.length} Song`}
-              </Text>
-            </TouchableOpacity>
-          ))
-        : null}
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={{ marginTop: 15 }}
-      >
-        <Text style={styles.playListButton}>+ Add New Playlist</Text>
-      </TouchableOpacity>
-      <PlayListInputModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSubmit={createPlayList}
-      ></PlayListInputModal>
-    </ScrollView>
+    <View style={{ backgroundColor: "#3a3d46", height: "100%" }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        {playList.length
+          ? playList.map((item) => (
+              <TouchableOpacity
+                key={item.id.toString()}
+                style={styles.playListBanner}
+                onPress={() => handleBannerPress(item)}
+              >
+                <Text
+                  style={{ color: "white", fontWeight: "bold", fontSize: 22 }}
+                >
+                  {item.title}
+                </Text>
+                <Text style={styles.audioCount}>
+                  {item.audios.length > 1
+                    ? `${item.audios.length} Songs`
+                    : `${item.audios.length} Song`}
+                </Text>
+              </TouchableOpacity>
+            ))
+          : null}
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={{ marginTop: 15 }}
+        >
+          <Text style={styles.playListButton}>+ Add New Playlist</Text>
+        </TouchableOpacity>
+        <PlayListInputModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSubmit={createPlayList}
+        ></PlayListInputModal>
+      </ScrollView>
     </View>
   );
 };
@@ -132,8 +146,8 @@ const styles = StyleSheet.create({
     marginTop: 3,
     opacity: 0.5,
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: "bold",
+    color: "white",
   },
   playListBanner: {
     padding: 15,
@@ -143,7 +157,7 @@ const styles = StyleSheet.create({
     height: 90,
   },
   playListButton: {
-    color: 'white',
+    color: "white",
     letterSpacing: 1,
     fontWeight: "bold",
     fontSize: 14,

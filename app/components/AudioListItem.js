@@ -10,16 +10,16 @@ import { Entypo } from "@expo/vector-icons";
 import color from "../misc/color";
 const getThumbnailText = (filename) => filename[0];
 export const convertTime = (duration) => {
-  var hrs = ~~(duration / 3600)
-  var mins = ~~((duration % 3600) / 60)
-  var secs = ~~duration % 60
-  var ret = ''
+  var hrs = ~~(duration / 3600);
+  var mins = ~~((duration % 3600) / 60);
+  var secs = ~~duration % 60;
+  var ret = "";
   if (hrs > 0) {
-    ret += '' + hrs + ':' + (mins < 10 ? '0' : '')
+    ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
   }
-  ret += '' + mins + ':' + (secs < 10 ? '0' : '')
-  ret += '' + secs
-  return ret
+  ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+  ret += "" + secs;
+  return ret;
 };
 const renderPlayPauseIcon = (isPlaying) => {
   if (isPlaying)
@@ -37,44 +37,42 @@ const AudioListItem = ({
   activeListItem,
 }) => {
   return (
-      <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={onAudioPress}>
-          <View style={styles.leftContainer}>
-            <View
-              style={[
-                styles.thumbnail,
-                {
-                  borderRadius: 12,
-                  backgroundColor: activeListItem
-                    ? '#4ecda4'
-                    : 'white',
-                },
-              ]}
-            >
-              <Text style={styles.thumbnailText}>
-                {activeListItem
-                  ? renderPlayPauseIcon(isPlaying)
-                  : getThumbnailText(title)}
-              </Text>
-            </View>
-            <View style={styles.titleContainer}>
-              <Text numberOfLines={1} style={styles.title}>
-                {title.split("-FLAC", 1)}
-              </Text>
-              <Text style={styles.timeText}>{convertTime(duration)}</Text>
-            </View>
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={onAudioPress}>
+        <View style={styles.leftContainer}>
+          <View
+            style={[
+              styles.thumbnail,
+              {
+                borderRadius: 12,
+                backgroundColor: activeListItem ? "#4ecda4" : "white",
+              },
+            ]}
+          >
+            <Text style={styles.thumbnailText}>
+              {activeListItem
+                ? renderPlayPauseIcon(isPlaying)
+                : getThumbnailText(title)}
+            </Text>
           </View>
-        </TouchableWithoutFeedback>
-        <View style={styles.rightContainer}>
-          <Entypo
-            onPress={onOptionPress}
-            name="dots-three-vertical"
-            size={20}
-            color= 'white'
-            style={{ padding: 10 }}
-          />
+          <View style={styles.titleContainer}>
+            <Text numberOfLines={1} style={styles.title}>
+              {title.split("-FLAC", 1)}
+            </Text>
+            <Text style={styles.timeText}>{convertTime(duration)}</Text>
+          </View>
         </View>
+      </TouchableWithoutFeedback>
+      <View style={styles.rightContainer}>
+        <Entypo
+          onPress={onOptionPress}
+          name="dots-three-vertical"
+          size={20}
+          color="white"
+          style={{ padding: 10 }}
+        />
       </View>
+    </View>
   );
 };
 const { width } = Dimensions.get("window");
@@ -84,10 +82,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: width - 30,
     backgroundColor: "#525a67",
-    borderColor: 'grey',
+    borderColor: "grey",
     borderWidth: 1,
     borderRadius: 13,
-    marginBottom: 10
+    marginBottom: 10,
   },
   leftContainer: {
     flexDirection: "row",
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
   thumbnailText: {
     fontSize: 22,
     fontWeight: "bold",
-    color: 'black',
+    color: "black",
   },
   titleContainer: {
     width: width - 180,
@@ -117,11 +115,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: 'white',
+    color: "white",
   },
   timeText: {
     fontSize: 14,
-    color: 'white',
+    color: "white",
   },
 });
 export default AudioListItem;

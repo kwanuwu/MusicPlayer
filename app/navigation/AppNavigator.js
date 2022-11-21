@@ -12,33 +12,37 @@ import Settings from "../screens/Settings";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-
 const PlayListScreen = () => {
-return <Stack.Navigator screenOptions={{headerShown: false}}>
-  <Stack.Screen name = 'Playlist' component={PlayList}></Stack.Screen>
-  <Stack.Screen name = 'PlayListDetail' component={PlayListDetail}></Stack.Screen>
-</Stack.Navigator>
-
-}
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Playlist" component={PlayList}></Stack.Screen>
+      <Stack.Screen
+        name="PlayListDetail"
+        component={PlayListDetail}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 const AppNavigator = () => {
   return (
-    <Tab.Navigator  screenOptions={({ route }) => ({
-      tabBarIcon: ({ color }) => screenOptions(route, color),
-      headerShown: false,
-      tabBarActiveTintColor: '#4ECCA3',
-      tabBarInactiveTintColor:'white',
-      tabBarStyle: {borderTopWidth: 0,
-      backgroundColor: '#232a32'},
-      detachInactiveTabs: true,
-      tabBarLabelStyle: { fontSize: 12},
-      tabBarHideOnKeyboard: true,
-    })}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => screenOptions(route, color),
+        headerShown: false,
+        tabBarActiveTintColor: "#4ECCA3",
+        tabBarInactiveTintColor: "white",
+        tabBarStyle: { borderTopWidth: 0, backgroundColor: "#232a32" },
+        detachInactiveTabs: true,
+        tabBarLabelStyle: { fontSize: 12 },
+        tabBarHideOnKeyboard: true,
+      })}
+    >
       <Tab.Screen
         name="AudioList"
         component={AudioList}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <Feather name="headphones" size={size} color={color} />
           ),
         }}
@@ -52,8 +56,7 @@ const AppNavigator = () => {
             <Feather name="search" size={size} color={color} />
           ),
         }}
-      >
-      </Tab.Screen>
+      ></Tab.Screen>
       <Tab.Screen
         name="Player"
         component={Player}

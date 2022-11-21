@@ -11,7 +11,7 @@ export default Screen;
 const styles = StyleSheet.create({
   containter: {
     flex: 1,
-    backgroundColor: '#3a3d46',
+    backgroundColor: "#3a3d46",
     paddingTop: StatusBar.currentHeight,
   },
 });

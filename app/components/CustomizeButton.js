@@ -16,15 +16,15 @@ export default CustomizeButton
 
 const styles = StyleSheet.create({
     TouchableOpacity: {
+      backgroundColor: '#2563eb',
+      borderRadius: 6,
       paddingLeft: 16,
       paddingRight: 16,
       paddingTop: 8,
       paddingBottom: 8,
-      backgroundColor: "rgba(37, 99, 235)",
-      borderRadius: 6
     },
     Text: {
-        color: "rgba(255, 255, 255)",
+        color: 'white',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 18,
