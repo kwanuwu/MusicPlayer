@@ -20,7 +20,7 @@ const MyTheme = {
 
 export default function Index() {
   const appContext = useContext(AppContext);
-  console.log(appContext);
+  // console.log(appContext);
   const Stack = createNativeStackNavigator();
 
   return (
