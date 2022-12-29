@@ -1,4 +1,4 @@
-# Nottify
+# MusicPlayer
 
 A simple music app for android devices built with react-native
 
